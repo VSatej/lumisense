@@ -58,14 +58,13 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   String msg = "";
   for (int i = 0; i < len; i++) msg += (char)data[i];
 
-  Serial.println("📥 " + msg);
-
   String msgID = getID(msg);
 
   // 🔥 FIXED duplicate handling
   if (isDuplicate(msgID)) return;
   storeMsg(msgID);
 
+  Serial.println("📥 " + msg);
   for (int i = 0; i < 255; i++) {
     brightness = i;
     ledcWrite(LED_PIN, brightness);

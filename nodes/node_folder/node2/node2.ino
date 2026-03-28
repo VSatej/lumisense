@@ -9,7 +9,7 @@ uint8_t myNeighbors[][6] = {
 int totalNeighbors = 2;
 
 // 🔹 PINS
-#define LED_PIN 2
+#define LED_PIN 3
 #define PIR_PIN 16
 
 // 🔹 PWM (ESP32-C6)
@@ -59,7 +59,7 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   String msg = "";
   for (int i = 0; i < len; i++) msg += (char)data[i];
 
-  Serial.println("📥 " + msg);
+  
 
   String msgID = getID(msg);
 
@@ -67,6 +67,8 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   if (isDuplicate(msgID)) return;
   storeMsg(msgID);
 
+  Serial.println("📥 " + msg);
+  
   for (int i = 0; i < 255; i++) {
     brightness = i;
     ledcWrite(LED_PIN, brightness);
