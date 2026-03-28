@@ -9,7 +9,7 @@ uint8_t myNeighbors[][6] = {
 int totalNeighbors = 2;
 
 // 🔹 PINS
-#define LED_PIN 3
+#define LED_PIN 2
 #define PIR_PIN 16
 
 // 🔹 PWM (ESP32-C6)
@@ -67,7 +67,13 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   if (isDuplicate(msgID)) return;
   storeMsg(msgID);
 
-  // 🔥 TURN ON LED
+  for (int i = 0; i < 255; i++) {
+    brightness = i;
+    ledcWrite(LED_PIN, brightness);
+    delay(12);
+    
+  }
+  
   brightness = 255;
   ledcWrite(LED_PIN, brightness);
   ledOn = true;
@@ -84,9 +90,6 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
     forwardMsg += "\"motion\":1,";
     forwardMsg += "\"ttl\":" + String(ttl);
     forwardMsg += "}";
-
-    // 🔥 Slight delay to reduce collisions
-    delay(random(10, 50));
 
     for (int i = 0; i < totalNeighbors; i++) {
       if (memcmp(myNeighbors[i], info->src_addr, 6) != 0) {
@@ -111,7 +114,7 @@ void sendMotion() {
   msg += "\"id\":\"" + msgID + "\",";
   msg += "\"node\":\"" + WiFi.macAddress() + "\",";
   msg += "\"motion\":1,";
-  msg += "\"ttl\":2";
+  msg += "\"ttl\":0";
   msg += "}";
 
   for (int i = 0; i < totalNeighbors; i++) {
@@ -169,6 +172,12 @@ void loop() {
   if (motion == HIGH && lastMotionState == LOW) {
     Serial.println("🚨 Motion detected!");
     sendMotion();
+
+    brightness = 255;
+    ledcWrite(LED_PIN, brightness);
+    ledOn = true;
+    ledStart = millis();
+    delay(1000);
   }
 
   lastMotionState = motion;
