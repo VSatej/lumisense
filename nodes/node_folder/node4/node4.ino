@@ -9,7 +9,7 @@ uint8_t myNeighbors[][6] = {
 int totalNeighbors = 2;
 
 // 🔹 PINS
-#define LED_PIN 2
+#define LED_PIN 3
 #define PIR_PIN 16
 
 // 🔹 PWM (ESP32-C6)
