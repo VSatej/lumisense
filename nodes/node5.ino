@@ -5,7 +5,7 @@
 uint8_t myNeighbors[][6] = {
   {0xFC,0x01,0x2C,0xEC,0xDA,0xF0}
 };
-int totalNeighbors = 2;
+int totalNeighbors = 1;
 
 // 🔹 PINS
 #define LED_PIN 2
