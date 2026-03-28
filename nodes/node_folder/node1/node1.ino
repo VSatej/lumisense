@@ -180,12 +180,12 @@ void loop() {
 
   lastMotionState = motion;
 
-  // 🔥 Smooth dimming (30 sec)
+  // 🔥 Smooth dimming (10 sec)
   if (ledOn) {
     unsigned long elapsed = millis() - ledStart;
 
-    if (elapsed < 30000) {
-      brightness = map(elapsed, 0, 30000, 255, 0);
+    if (elapsed < 10000) {
+      brightness = map(elapsed, 0, 10000, 255, 0);
       ledcWrite(LED_PIN, brightness);
     } else {
       ledcWrite(LED_PIN, 0);

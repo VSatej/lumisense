@@ -60,9 +60,6 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   for (int i = 0; i < len; i++) msg += (char)data[i];
 
   String msgID = getID(msg);
-  if (msgID = "") {
-    return;
-  } 
 
   // 🔥 FIXED duplicate handling
   if (isDuplicate(msgID)) return;
@@ -189,7 +186,7 @@ void loop() {
   if (ledOn) {
     unsigned long elapsed = millis() - ledStart;
 
-    if (elapsed < 30000) {
+    if (elapsed < 10000) {
       brightness = map(elapsed, 0, 30000, 255, 0);
       ledcWrite(LED_PIN, brightness);
     } else {

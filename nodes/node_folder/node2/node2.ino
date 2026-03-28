@@ -68,7 +68,7 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
   storeMsg(msgID);
 
   Serial.println("📥 " + msg);
-  
+
   for (int i = 0; i < 255; i++) {
     brightness = i;
     ledcWrite(LED_PIN, brightness);
@@ -184,11 +184,11 @@ void loop() {
 
   lastMotionState = motion;
 
-  // 🔥 Smooth dimming (30 sec)
+  // 🔥 Smooth dimming (10 sec)
   if (ledOn) {
     unsigned long elapsed = millis() - ledStart;
 
-    if (elapsed < 30000) {
+    if (elapsed < 10000) {
       brightness = map(elapsed, 0, 30000, 255, 0);
       ledcWrite(LED_PIN, brightness);
     } else {

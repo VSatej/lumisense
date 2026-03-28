@@ -8,8 +8,8 @@ uint8_t myNeighbors[][6] = {
 int totalNeighbors = 1;
 
 // 🔹 PINS
-#define LED_PIN 2
-#define PIR_PIN 16
+#define LED_PIN 21
+#define PIR_PIN 3
 
 // 🔹 PWM (ESP32-C6)
 int brightness = 0;
@@ -67,7 +67,7 @@ void onReceive(const esp_now_recv_info *info, const uint8_t *data, int len) {
 
   Serial.println("📥 " + msg);
 
-  
+
   for (int i = 0; i < 255; i++) {
     brightness = i;
     ledcWrite(LED_PIN, brightness);
@@ -187,7 +187,7 @@ void loop() {
   if (ledOn) {
     unsigned long elapsed = millis() - ledStart;
 
-    if (elapsed < 30000) {
+    if (elapsed < 10000) {
       brightness = map(elapsed, 0, 30000, 255, 0);
       ledcWrite(LED_PIN, brightness);
     } else {
